@@ -5,22 +5,50 @@ describe('Add movie', function(){
 
   	beforeEach(function(){
   		// Lisää moduulisi nimi tähän
-    	module('MyAwesomeModule');
+    	module('MovieApp');
 
     	FirebaseServiceMock = (function(){
+            
+            var movies = [
+                {
+                    title: 'Eka elokuva',
+                    director: 'Joku',
+                    release: '1999',
+                    description: 'Maailman ensimmäinen elokuva'
+                },
+                {
+                    title: 'Toka elokuva',
+                    director: 'Jokainen',
+                    release: '1989',
+                    description: 'Vaikea elokuva'
+                },
+                {
+                    title: 'Viimeinen elokuva',
+                    director: 'Ei kukaan',
+                    release: '1',
+                    description: 'Kaksi vuotta kolme kertaa.'
+                }
+            ];
 			return {
-				// Toteuta FirebaseServicen mockatut metodit tähän
+                            addMovie: function(movie) {
+                                movies.push(movie);
+                            },
+                            getMovies: function() {
+                                return movies;
+                            }
 			}
 		})();
 
 		// Lisää vakoilijat
 	    // spyOn(FirebaseServiceMock, 'jokuFunktio').and.callThrough();
+            spyOn(FirebaseServiceMock, 'addMovie').and.callThrough();
+            spyOn(FirebaseServiceMock, 'getMovies').and.callThrough();
 
     	// Injektoi toteuttamasi kontrolleri tähän
 	    inject(function($controller, $rootScope) {
 	      scope = $rootScope.$new();
 	      // Muista vaihtaa oikea kontrollerin nimi!
-	      controller = $controller('MyAwesomeController', {
+	      controller = $controller('AddMovieController', {
 	        $scope: scope,
 	        FirebaseService: FirebaseServiceMock
 	      });
@@ -38,7 +66,14 @@ describe('Add movie', function(){
   	* toBeCalled-oletusta.
 	*/
 	it('should be able to add a movie by its name, director, release date and description', function(){
-		expect(true).toBe(false);
+            scope.title = 'Lisäys';
+            scope.director = 'Minä';
+            scope.release = '2012';
+            scope.description = 'Jotain kivaa';
+            scope.addMovie();
+            expect(scope.movies.length).toBe(4);
+            expect(scope.movies[3].title).toBe('Lisäys');
+            expect(FirebaseServiceMock.addMovie).toHaveBeenCalled();
 	});
 
 	/*	
@@ -48,6 +83,12 @@ describe('Add movie', function(){
 	* not.toBeCalled-oletusta (muista not-negaatio!).
 	*/
 	it('should not be able to add a movie if its name, director, release date or description is empty', function(){
-		expect(true).toBe(false);
+            scope.title = 'Lisäys';
+            scope.director = '';
+            scope.release = '2012';
+            scope.description = 'Jotain kivaa';
+            scope.addMovie();
+            expect(scope.movies.length).toBe(3);
+            expect(FirebaseServiceMock.addMovie).not.toHaveBeenCalled();
 	});
 });

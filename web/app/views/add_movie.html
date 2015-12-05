@@ -1,0 +1,39 @@
+<form name="add">
+    <p>
+        <label>Elokuvan nimi:</label>
+        <input type="text" name="title" ng-model="title" required />
+        <br />
+    <div ng-show="add.$submitted || add.title.$touched">
+        <div ng-show="add.title.$error.required">Elokuvan nimi ei saa olla tyhjä!</div>
+    </div>
+</p>
+
+<p>
+    <label>Ohjaajan nimi:</label>
+    <input type="text" name="director" ng-model="director" required />
+    <br />
+<div ng-show="add.$submitted || add.director.$touched">
+    <div ng-show="add.director.$error.required">Elokuvalla täytyy olla ohjaaja!</div>
+</div>
+</p>
+
+<p>
+    <label>Julkaisuvuosi:</label>
+    <input type="number" name="release" ng-model="release" min="1" integer />
+    <br />
+    <span ng-show="add.release.$error.integer">Julkaisuvuoden tulee olla kokonaisluku!</span>
+    <span ng-show="add.release.$error.min">Julkaisuvuoden tulee olaa enemmän kuin nolla!</span>
+</p>
+
+<p>
+    <label>Kuvaus:</label>
+    <input type="text" name="description" ng-model="description" required />
+    <br />
+<div ng-show="add.$submitted || add.description.$touched">
+    <div ng-show="add.description.$error.required">Elokuvalla pitää olla kuvaus!</div>
+</div>
+</p>
+
+
+<input type="submit" ng-click="addMovie()" value="Lisää"/>
+</form>

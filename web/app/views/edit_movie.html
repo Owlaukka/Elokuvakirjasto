@@ -1,0 +1,39 @@
+<form name="edit">
+    <p>
+        <label>Elokuvan nimi:</label>
+        <input type="text" name="editTitle" ng-model="editTitle" required />
+        <br />
+    <div ng-show="edit.$submitted || edit.editTitle.$touched">
+        <div ng-show="edit.editTitle.$error.required">Elokuvan nimi ei saa olla tyhjä!</div>
+    </div>
+</p>
+
+<p>
+    <label>Ohjaajan nimi:</label>
+    <input type="text" name="editDirector" ng-model="editDirector" required />
+    <br />
+<div ng-show="edit.$submitted || edit.editDirector.$touched">
+    <div ng-show="edit.editDirector.$error.required">Elokuvalla täytyy olla ohjaaja!</div>
+</div>
+</p>
+
+<p>
+    <label>Julkaisuvuosi:</label>
+    <input type="number" name="editRelease" ng-model="editRelease" min="1" integer />
+    <br />
+    <span ng-show="edit.editRelease.$error.integer">Julkaisuvuoden tulee olla kokonaisluku!</span>
+    <span ng-show="edit.editRelease.$error.min">Julkaisuvuoden tulee olaa enemmän kuin nolla!</span>
+</p>
+
+<p>
+    <label>Kuvaus:</label>
+    <input type="text" name="editDescription" ng-model="editDescription" required />
+    <br />
+<div ng-show="edit.$submitted || edit.editDescription.$touched">
+    <div ng-show="edit.editDescription.$error.required">Elokuvalla pitää olla kuvaus!</div>
+</div>
+</p>
+
+
+<input type="submit" ng-click="editMovie(movie)" value="Muokkaa"/>
+</form>
